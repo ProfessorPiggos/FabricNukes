@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "fabricnukes",
+  "version": "${version}",
+  "name": "Fabric Nukes",
+  "description": "Nukes and other explosives in fabric",
+  "authors": [
+    "ProfessorPiggos"
+  ],
+  "contact": {
+    "repo": "https://github.com/ProfessorPiggos/FabricNukes"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/fabricnukes/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.github.professorpiggos.fabricnukes.client.FabricNukesClient"
+    ],
+    "main": [
+      "io.github.professorpiggos.fabricnukes.FabricNukes"
+    ]
+  },
+  "mixins": [
+    "fabricnukes.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.2",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
