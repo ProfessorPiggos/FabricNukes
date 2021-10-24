@@ -12,6 +12,6 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 public class FabricNukesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.register(FabricNukes.WEEZER, (entityRenderDispatcher, context) -> new WeezerRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.register(FabricNukes.WEEZER, WeezerRenderer::new);
     }
 }
