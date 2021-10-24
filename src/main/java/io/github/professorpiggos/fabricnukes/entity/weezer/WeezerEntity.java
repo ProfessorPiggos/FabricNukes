@@ -13,20 +13,22 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class WeezerEntity extends PathAwareEntity implements IAnimatable {
     private final AnimationFactory factory = new AnimationFactory(this);
-
+    private static final AnimationBuilder WEEZER_WALK = new AnimationBuilder().addAnimation("animation.weezermob.walk",true);
+    private static final AnimationBuilder WEEZER_IDLE = new AnimationBuilder().addAnimation("animation.weezermob.idle",true);
+    private boolean isMovingXZ() { return (this.getVelocity().getX() != 0.0f) && (this.getVelocity().getZ() != 0.0f); }
+    private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+        if (isMovingXZ()) {event.getController().setAnimation(WEEZER_WALK);}
+        else {event.getController().setAnimation(WEEZER_IDLE);}
+        return PlayState.CONTINUE;
+    }
     public WeezerEntity(EntityType<? extends PathAwareEntity> type, World worldIn) {
         super(type, worldIn);
         this.ignoreCameraFrustum = true;
     }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bat.fly", true));
-        return PlayState.CONTINUE;
-    }
-
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     @Override
