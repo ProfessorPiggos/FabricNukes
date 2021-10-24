@@ -3,9 +3,7 @@
 	"animations": {
 		"animation.weezermob.walk": {
 			"loop": true,
-			"animation_length": 1.16667,
-			"start_delay": "0",
-			"loop_delay": "0",
+			"animation_length": 1.1667,
 			"bones": {
 				"L": {
 					"rotation": {
@@ -34,7 +32,7 @@
 							"vector": [0, 0, 0]
 						},
 						"0.2917": {
-							"vector": [0, 2.8, 5.2],
+							"vector": [0, 3.64, 6.76],
 							"easing": "easeOutSine"
 						},
 						"0.5833": {
@@ -42,7 +40,7 @@
 							"easing": "easeInSine"
 						},
 						"0.875": {
-							"vector": [0, 2.8, -5.2],
+							"vector": [0, 3.64, -6.76],
 							"easing": "easeOutSine"
 						},
 						"1.1667": {
@@ -78,7 +76,7 @@
 							"vector": [0, 0, 0]
 						},
 						"0.2917": {
-							"vector": [0, 2.8, -5.2],
+							"vector": [0, 3.64, -6.76],
 							"easing": "easeOutSine"
 						},
 						"0.5833": {
@@ -86,7 +84,7 @@
 							"easing": "easeInSine"
 						},
 						"0.875": {
-							"vector": [0, 2.8, 5.2],
+							"vector": [0, 3.64, 6.76],
 							"easing": "easeOutSine"
 						},
 						"1.1667": {

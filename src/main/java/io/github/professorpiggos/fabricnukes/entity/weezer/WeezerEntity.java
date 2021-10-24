@@ -12,7 +12,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class WeezerEntity extends PathAwareEntity implements IAnimatable {
-    private AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public WeezerEntity(EntityType<? extends PathAwareEntity> type, World worldIn) {
         super(type, worldIn);
