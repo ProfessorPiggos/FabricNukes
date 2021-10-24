@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 
 public class FabricNukes implements ModInitializer {
@@ -19,11 +20,12 @@ public class FabricNukes implements ModInitializer {
     public static final EntityType<WeezerEntity> WEEZER = Registry.register(
       Registry.ENTITY_TYPE,
       new Identifier("fabricnukes","weezermob"),
-      FabricEntityTypeBuilder.create(SpawnGroup.CREATURE,WeezerEntity::new).dimensions(EntityDimensions.fixed(4.5f,2.5f)).build()
+      FabricEntityTypeBuilder.create(SpawnGroup.CREATURE,WeezerEntity::new).dimensions(EntityDimensions.fixed(3f,2.25f)).build()
     );
     @Override
     public void onInitialize() {
         GeckoLib.initialize();
+        GeckoLibMod.DISABLE_IN_DEV = true;
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
         FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.createMobAttributes());
     }
