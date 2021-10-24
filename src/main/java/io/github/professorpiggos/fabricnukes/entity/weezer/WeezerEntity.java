@@ -17,7 +17,7 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
     private static final AnimationBuilder WEEZER_WALK = new AnimationBuilder().addAnimation("animation.weezermob.walk",true);
     private static final AnimationBuilder WEEZER_IDLE = new AnimationBuilder().addAnimation("animation.weezermob.idle",true);
     private static final AnimationBuilder WEEZER_ATTACK = new AnimationBuilder().addAnimation("animation.weezermob.attack",false);
-    private boolean isMovingXZ() { return (this.getVelocity().getX() != 0.0f) && (this.getVelocity().getZ() != 0.0f); }
+    private boolean isMovingXZ() { return (this.getVelocity().getX() != 0.0f) || (this.getVelocity().getZ() != 0.0f); }
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
         if (isMovingXZ()) {event.getController().setAnimation(WEEZER_WALK);}
         else {event.getController().setAnimation(WEEZER_IDLE);}
@@ -25,7 +25,7 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
     }
     public WeezerEntity(EntityType<? extends HostileEntity> type, World worldIn) {
         super(type, worldIn);
-        this.ignoreCameraFrustum = true;
+        this.ignoreCameraFrustum = false;
     }
 
     @Override
