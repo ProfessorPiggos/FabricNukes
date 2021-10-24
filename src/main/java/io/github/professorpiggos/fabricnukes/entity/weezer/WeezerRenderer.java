@@ -1,9 +1,9 @@
 package io.github.professorpiggos.fabricnukes.entity.weezer;
 
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import io.github.professorpiggos.fabricnukes.util.MyGeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
-public class WeezerRenderer extends MyGeoEntityRenderer<WeezerEntity> {
+public class WeezerRenderer extends GeoEntityRenderer<WeezerEntity> {
     public WeezerRenderer(EntityRendererFactory.Context a) {
         super(a, new WeezerModel());
         this.shadowRadius =  4.5f;
