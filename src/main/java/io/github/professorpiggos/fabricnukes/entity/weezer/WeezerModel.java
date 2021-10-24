@@ -17,6 +17,6 @@ public class WeezerModel extends AnimatedGeoModel<WeezerEntity> {
 
     @Override
     public Identifier getAnimationFileLocation(WeezerEntity animatable) {
-        return new Identifier("fabricnukes","animations/weezermob.animation.json");
+        return new Identifier("fabricnukes","animations/weezer.animation.json");
     }
 }
