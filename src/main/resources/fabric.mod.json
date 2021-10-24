@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "fabricnukes",
-  "version": "${version}",
+  "version": "Beta",
   "name": "Fabric Nukes",
   "description": "Nukes and other explosives in fabric",
   "authors": [
