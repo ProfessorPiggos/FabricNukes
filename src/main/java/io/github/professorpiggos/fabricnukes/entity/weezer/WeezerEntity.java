@@ -1,8 +1,11 @@
 package io.github.professorpiggos.fabricnukes.entity.weezer;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -27,7 +30,12 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
         super(type, worldIn);
         this.ignoreCameraFrustum = false;
     }
-
+    public static DefaultAttributeContainer.Builder weezerDefaultAttributes() {
+        return HostileEntity.createHostileAttributes().add(
+                EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.3d)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4d)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6d);
+    }
     @Override
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));

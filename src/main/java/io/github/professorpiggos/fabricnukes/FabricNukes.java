@@ -20,13 +20,13 @@ public class FabricNukes implements ModInitializer {
     public static final EntityType<WeezerEntity> WEEZER = Registry.register(
       Registry.ENTITY_TYPE,
       new Identifier("fabricnukes","weezermob"),
-      FabricEntityTypeBuilder.create(SpawnGroup.CREATURE,WeezerEntity::new).dimensions(EntityDimensions.fixed(3f,2.25f)).build()
+      FabricEntityTypeBuilder.create(SpawnGroup.CREATURE,WeezerEntity::new).dimensions(EntityDimensions.fixed(3.1f,2.25f)).build()
     );
     @Override
     public void onInitialize() {
         GeckoLib.initialize();
         GeckoLibMod.DISABLE_IN_DEV = true;
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
-        FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.createMobAttributes());
+        FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.weezerDefaultAttributes());
     }
 }
