@@ -118,6 +118,7 @@
 			"loop": true
 		},
 		"animation.weezermob.attack": {
+			"loop": true,
 			"animation_length": 0.33333,
 			"bones": {
 				"2": {
