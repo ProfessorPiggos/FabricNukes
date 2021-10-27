@@ -30,7 +30,7 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
         if (this.isAttacking()) {
             event.getController().setAnimation(WEEZER_ATTACK);
-        } else if (isMovingXZ) {
+        } else if (isMovingXZ()) {
             event.getController().setAnimation(WEEZER_WALK);
         } else {
             event.getController().setAnimation(WEEZER_IDLE);
