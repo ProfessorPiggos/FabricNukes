@@ -22,32 +22,21 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class WeezerEntity extends HostileEntity implements IAnimatable {
-    private boolean attacking = false;
     private final AnimationFactory factory = new AnimationFactory(this);
     private static final AnimationBuilder WEEZER_WALK = new AnimationBuilder().addAnimation("animation.weezermob.walk",true);
     private static final AnimationBuilder WEEZER_IDLE = new AnimationBuilder().addAnimation("animation.weezermob.idle",true);
-    private static final AnimationBuilder WEEZER_ATTACK = new AnimationBuilder().addAnimation("animation.weezermob.attack",false);
+    private static final AnimationBuilder WEEZER_ATTACK = new AnimationBuilder().addAnimation("animation.weezermob.attack",true);
     private boolean isMovingXZ() { return (this.getVelocity().getX() != 0.0f) || (this.getVelocity().getZ() != 0.0f); }
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-        if (!attacking) {
-            if (isMovingXZ()) {
-                event.getController().setAnimation(WEEZER_WALK);
-            } else {
-                event.getController().setAnimation(WEEZER_IDLE);
-            }
-        } else {
+        if (this.isAttacking()) {
             event.getController().setAnimation(WEEZER_ATTACK);
-            attacking = false;
+        } else if (isMovingXZ) {
+            event.getController().setAnimation(WEEZER_WALK);
+        } else {
+            event.getController().setAnimation(WEEZER_IDLE);
         }
         return PlayState.CONTINUE;
     }
-
-    @Override
-    public void swingHand(Hand hand) {
-        attacking = true;
-        super.swingHand(hand);
-    }
-
     public WeezerEntity(EntityType<? extends HostileEntity> type, World worldIn) {
         super(type, worldIn);
         this.ignoreCameraFrustum = false;
@@ -63,10 +52,10 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
     }
 
     protected void initGoals() {
-        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.goalSelector.add(2, new MeleeAttackGoal(this,1.0D,false));
-        this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(1, (new RevengeGoal(this)));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
