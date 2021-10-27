@@ -11,6 +11,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -21,16 +22,32 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class WeezerEntity extends HostileEntity implements IAnimatable {
+    private boolean attacking = false;
     private final AnimationFactory factory = new AnimationFactory(this);
     private static final AnimationBuilder WEEZER_WALK = new AnimationBuilder().addAnimation("animation.weezermob.walk",true);
     private static final AnimationBuilder WEEZER_IDLE = new AnimationBuilder().addAnimation("animation.weezermob.idle",true);
     private static final AnimationBuilder WEEZER_ATTACK = new AnimationBuilder().addAnimation("animation.weezermob.attack",false);
     private boolean isMovingXZ() { return (this.getVelocity().getX() != 0.0f) || (this.getVelocity().getZ() != 0.0f); }
     private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-        if (isMovingXZ()) {event.getController().setAnimation(WEEZER_WALK);}
-        else {event.getController().setAnimation(WEEZER_IDLE);}
+        if (!attacking) {
+            if (isMovingXZ()) {
+                event.getController().setAnimation(WEEZER_WALK);
+            } else {
+                event.getController().setAnimation(WEEZER_IDLE);
+            }
+        } else {
+            event.getController().setAnimation(WEEZER_ATTACK);
+            attacking = false;
+        }
         return PlayState.CONTINUE;
     }
+
+    @Override
+    public void swingHand(Hand hand) {
+        attacking = true;
+        super.swingHand(hand);
+    }
+
     public WeezerEntity(EntityType<? extends HostileEntity> type, World worldIn) {
         super(type, worldIn);
         this.ignoreCameraFrustum = false;
