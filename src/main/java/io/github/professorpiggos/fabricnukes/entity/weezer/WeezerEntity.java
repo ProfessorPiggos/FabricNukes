@@ -1,11 +1,16 @@
 package io.github.professorpiggos.fabricnukes.entity.weezer;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -31,11 +36,24 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
         this.ignoreCameraFrustum = false;
     }
     public static DefaultAttributeContainer.Builder weezerDefaultAttributes() {
-        return HostileEntity.createHostileAttributes().add(
-                EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.3d)
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH,30d)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.3d)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4d)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6d);
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8d)
+                .add(EntityAttributes.GENERIC_ATTACK_SPEED,2.5d)
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK,0.5d);
     }
+
+    protected void initGoals() {
+        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(4, new LookAroundGoal(this));
+        this.goalSelector.add(2, new MeleeAttackGoal(this,1.0D,false));
+        this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0D));
+        this.targetSelector.add(1, (new RevengeGoal(this)));
+        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+    }
+
     @Override
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
