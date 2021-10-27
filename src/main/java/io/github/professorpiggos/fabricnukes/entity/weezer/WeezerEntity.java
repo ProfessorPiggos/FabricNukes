@@ -51,10 +51,10 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
     }
 
     protected void initGoals() {
-        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(4, new LookAroundGoal(this));
-        this.goalSelector.add(2, new MeleeAttackGoal(this,1.0D,false));
-        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(5, new LookAroundGoal(this));
+        this.goalSelector.add(3, new MeleeAttackGoal(this,1.0D,false));
+        this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(1, (new RevengeGoal(this)));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
