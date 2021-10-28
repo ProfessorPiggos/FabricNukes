@@ -1,7 +1,12 @@
 package io.github.professorpiggos.fabricnukes.entity.weezer;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
@@ -36,16 +41,16 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
     }
     public static DefaultAttributeContainer.Builder weezerDefaultAttributes() {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH,30d)
-                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.3d)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4d)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8d)
-                .add(EntityAttributes.GENERIC_ATTACK_SPEED,2.5d)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK,0.5d);
+                .add(EntityAttributes.GENERIC_MAX_HEALTH,40d)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.25d)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.55d)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.5d)
+                .add(EntityAttributes.GENERIC_ATTACK_SPEED,2.35d)
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK,0.7d);
     }
     protected void initGoals() {
         this.goalSelector.add(2, new MeleeAttackGoal(this,1.0D,false));
-        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 15.0F));
+        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 18.0F));
         this.goalSelector.add(8, new LookAroundGoal(this));
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(1, (new RevengeGoal(this)));
