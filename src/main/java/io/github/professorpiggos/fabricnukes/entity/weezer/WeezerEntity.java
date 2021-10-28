@@ -1,12 +1,7 @@
 package io.github.professorpiggos.fabricnukes.entity.weezer;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.WanderAroundGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
@@ -19,7 +14,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-
 public class WeezerEntity extends HostileEntity implements IAnimatable {
     private final AnimationFactory factory = new AnimationFactory(this);
     private static final AnimationBuilder WEEZER_WALK = new AnimationBuilder().addAnimation("animation.weezermob.walk",true);
@@ -49,12 +43,11 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
                 .add(EntityAttributes.GENERIC_ATTACK_SPEED,2.5d)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK,0.5d);
     }
-
     protected void initGoals() {
-        this.goalSelector.add(3, new MeleeAttackGoal(this,1.0D,false));
-        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 15.0F));
-        this.goalSelector.add(6, new LookAroundGoal(this));
-        this.goalSelector.add(7, new WanderAroundGoal(this, 1.0D));
+        this.goalSelector.add(2, new MeleeAttackGoal(this,1.0D,false));
+        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 15.0F));
+        this.goalSelector.add(8, new LookAroundGoal(this));
+        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(1, (new RevengeGoal(this)));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
