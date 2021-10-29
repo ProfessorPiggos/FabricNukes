@@ -1,5 +1,6 @@
 package io.github.professorpiggos.fabricnukes;
 
+import io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow.BlackYellowMissileEntity;
 import io.github.professorpiggos.fabricnukes.entity.weezer.WeezerEntity;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -18,10 +19,16 @@ import software.bernie.geckolib3.GeckoLib;
 public class FabricNukes implements ModInitializer {
     public static final Item GUN = new Item(new FabricItemSettings().group(ItemGroup.MISC));
     public static final EntityType<WeezerEntity> WEEZER = Registry.register(
-      Registry.ENTITY_TYPE,
-      new Identifier("fabricnukes","weezermob"),
-      FabricEntityTypeBuilder.create(SpawnGroup.CREATURE,WeezerEntity::new).dimensions(EntityDimensions.fixed(3.1f,2.25f)).build()
+            Registry.ENTITY_TYPE,
+            new Identifier("fabricnukes", "weezermob"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, WeezerEntity::new).dimensions(EntityDimensions.fixed(3.1f, 2.25f)).build()
     );
+    public static final EntityType<BlackYellowMissileEntity> BLACK_YELLOW_MISSILE = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier("fabricnukes", "blackyellowmissile"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlackYellowMissileEntity::new).dimensions(EntityDimensions.fixed(1f, 5f)).build()
+    );
+
     @Override
     public void onInitialize() {
         GeckoLib.initialize();
