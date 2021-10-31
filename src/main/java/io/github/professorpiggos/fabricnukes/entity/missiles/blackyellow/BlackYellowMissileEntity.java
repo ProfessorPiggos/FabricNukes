@@ -1,7 +1,6 @@
 package io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.world.World;
@@ -23,7 +22,7 @@ public class BlackYellowMissileEntity extends PathAwareEntity implements IAnimat
     }
 
     public static DefaultAttributeContainer.Builder blackYellowMissileDefaultAttributes() {
-        return LivingEntity.createLivingAttributes();
+        return PathAwareEntity.createMobAttributes();
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
