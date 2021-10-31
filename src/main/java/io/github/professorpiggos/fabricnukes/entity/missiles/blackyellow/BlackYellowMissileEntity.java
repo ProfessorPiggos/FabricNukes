@@ -35,17 +35,16 @@ public class BlackYellowMissileEntity extends LivingEntity implements IAnimatabl
 
     @Override
     public ItemStack getEquippedStack(EquipmentSlot slot) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
     public void equipStack(EquipmentSlot slot, ItemStack stack) {
-
     }
 
     @Override
     public Arm getMainArm() {
-        return null;
+        return Arm.RIGHT;
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
