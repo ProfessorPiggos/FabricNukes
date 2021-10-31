@@ -6,6 +6,6 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 public class BlackYellowMissileRenderer extends GeoEntityRenderer<BlackYellowMissileEntity> {
     public BlackYellowMissileRenderer(EntityRendererFactory.Context a) {
         super(a, new BlackYellowMissileModel());
-        this.shadowRadius = 0.6f;
+        this.shadowRadius = 0.9f;
     }
 }
