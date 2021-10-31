@@ -35,5 +35,6 @@ public class FabricNukes implements ModInitializer {
         GeckoLibMod.DISABLE_IN_DEV = true;
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
         FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.weezerDefaultAttributes());
+        FabricDefaultAttributeRegistry.register(BLACK_YELLOW_MISSILE, BlackYellowMissileEntity.blackYellowMissileDefaultAttributes());
     }
 }
