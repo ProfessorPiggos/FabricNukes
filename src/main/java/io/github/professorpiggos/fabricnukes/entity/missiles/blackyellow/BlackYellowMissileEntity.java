@@ -35,11 +35,34 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
         return MobEntity.createMobAttributes();
     }
 
-    protected Vec3d easedUpAndDownVelocity(double startValue, boolean headingUp) {
-        double yVelo = 0.3D / (1D - (Math.cos((this.getY() - startValue) / (256D - startValue) * Math.PI) / 2D));
-        return new Vec3d(0D, headingUp ? yVelo : -yVelo, 0D);
+    /**
+     * Returns velocity for missile launcj
+     * Uses easeInSine from easings.net
+     * Assumed end at world height
+     * @param startValue launch location of missile
+     * @return Vec3d of missile velocity
+     */
+    protected Vec3d easedUpVelocity(double startValue) {
+        return new Vec3d(
+            0D,
+            0.75D / (1D - Math.cos((((this.getY() - startValue) / (256D - startValue)) * Math.PI) / 2)),
+            0D);
     }
 
+    /**
+     * Returns velocity for missile fall
+     * Uses easeInQuad from easings.net
+     * Assumed start at world height
+     * @param destinationValue where missile will land
+     * @return Vec3d of missile velocity
+     */
+    protected Vec3d easedFallVelocity(double destinationValue) {
+        return new Vec3d(
+            0D,
+            Math.pow((this.getY() - destinationValue) / (destinationValue - 256D), 2),
+            0D
+        );
+    }
     @Override
     public void tick() {
         super.tick();
