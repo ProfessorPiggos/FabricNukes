@@ -59,7 +59,7 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
     protected Vec3d easedFallVelocity(double destinationValue) {
         return new Vec3d(
             0D,
-            Math.pow((this.getY() - destinationValue) / (destinationValue - 256D), 2),
+            0.75D / Math.pow((this.getY() - destinationValue) / (destinationValue - 256D), 2),
             0D
         );
     }
