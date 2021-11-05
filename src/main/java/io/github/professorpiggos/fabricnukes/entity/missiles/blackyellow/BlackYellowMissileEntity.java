@@ -1,10 +1,13 @@
 package io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow;
 
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -43,10 +46,13 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
      * @return Vec3d of missile velocity
      */
     protected Vec3d easedUpVelocity(double startValue) {
+        if (this.getVelocity() == Vec3d.ZERO) {
+            // fix this later for top check
+        }
         return new Vec3d(
-            0D,
-            0.75D / (1D - Math.cos((((this.getY() - startValue) / (256D - startValue)) * Math.PI) / 2)),
-            0D);
+                0D,
+                0.75D / (1D - Math.cos((((this.getY() - startValue) / (256D - startValue)) * Math.PI) / 2)),
+                0D);
     }
 
     /**
@@ -59,13 +65,9 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
     protected Vec3d easedFallVelocity(double destinationValue) {
         return new Vec3d(
             0D,
-            0.75D / Math.pow((this.getY() - destinationValue) / (destinationValue - 256D), 2),
+            -0.75D / Math.pow((((this.getY() - destinationValue) / (256D - destinationValue)) - 1) , 2),
             0D
         );
-    }
-    @Override
-    public void tick() {
-        super.tick();
     }
 
     protected enum MissileStates {
@@ -75,14 +77,37 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
         DOWN,
         IMPACT
     }
+    protected Vec3d velocityCalculator() {
+        switch (state) {
+            case LAUNCH -> {
+                world.getTopY(Heightmap.Type.WORLD_SURFACE, 0, 0);
+                return Vec3d.ZERO; // placeholder
+            }
+            case UP -> {
+                return easedUpVelocity(1);
+            }
+            case DOWN -> {
+                return easedFallVelocity(1);
+            }
+            default -> {
+                return Vec3d.ZERO;
+            }
+        }
+    }
 
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    @Override
+    public void tick() {
+        super.tick();
+        this.setVelocity(velocityCalculator());
+    }
+
+    private <E extends IAnimatable> PlayState predicate(@NotNull AnimationEvent<E> event) {
         event.getController().setAnimation(BLACK_YELLOW_MISSILE_IDLE);
         return PlayState.CONTINUE;
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
+    public void registerControllers(@NotNull AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
