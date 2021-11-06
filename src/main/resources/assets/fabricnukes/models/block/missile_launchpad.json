@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "fabricnukes:blocks/missile_launchpad",
-		"particle": "fabricnukes:blocks/missile_launchpad"
+		"0": "fabricnukes:block/missile_launchpad",
+		"particle": "fabricnukes:block/missile_launchpad"
 	},
 	"elements": [
 		{
