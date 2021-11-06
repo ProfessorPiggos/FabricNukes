@@ -3,6 +3,7 @@ package io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
@@ -31,19 +32,29 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
     }
     private MissileStates state = MissileStates.UP;
 
-    protected Vec3d velocityCalculator = switch (state) {
-        case PRELAUNCH -> new Vec3d(0,0.2,0); // debug
-        case UP -> easedUpVelocity(this.getY(), startY);
-        case DOWN -> easedFallVelocity(this.getY(), startY);
-        default -> Vec3d.ZERO;
-    };
+    protected Vec3d velocityCalculator() {
+        switch (state) {
+            case PRELAUNCH -> {
+                return new Vec3d(0,0.2,0); // debug
+            }
+            case UP -> {
+                return easedUpVelocity(this.getY(), startY);
+            }
+            case DOWN -> {
+                return easedFallVelocity(this.getY(), startY);
+            }
+            default -> {
+                return Vec3d.ZERO;
+            }
+        }
+    }
 
     public BlackYellowMissileEntity(EntityType<? extends MobEntity> type, World worldIn) {
         super(type, worldIn);
         this.ignoreCameraFrustum = false;
         startY = this.getY();
-        destinationX = this.getX() + 10;
-        destinationZ = this.getZ() + 10;
+        destinationX = this.getX();
+        destinationZ = this.getZ();
     }
 
     private static final AnimationBuilder BLACK_YELLOW_MISSILE_IDLE = new AnimationBuilder().addAnimation("animation.blackyellowmissile.idle", true);
@@ -62,10 +73,10 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
      */
     @Contract("_, _ -> new")
     public @NotNull Vec3d easedUpVelocity(double curY, double startValue) {
-        if (curY < 256D) {
+        if (curY < 250D) {
             return new Vec3d(
                     0D,
-                    0.75D / (1D - Math.cos((((curY - (startValue - 0.01D)) / (256D - startValue)) * Math.PI) / 2)),
+                    0.75,
                     0D);
         } else {
             state = MissileStates.DONEUP;
@@ -85,7 +96,7 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
         if (curY > destinationValue) {
             return new Vec3d(
                     0D,
-                    -0.75D / Math.pow((((curY - (destinationValue - 0.01D)) / (256D - destinationValue)) - 1), 2),
+                    -0.75D,
                     0D
             );
         } else {
@@ -95,17 +106,19 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
 
     @Override
     public void tick() {
-        this.setVelocity(velocityCalculator);
-        super.tick();
         switch (state) {
             case DONEUP -> {
-                super.teleport(destinationX, this.getY() ,destinationZ);
                 state = MissileStates.DOWN;
             }
             case UP, DOWN -> {
-
+                if (super.verticalCollision) {
+                    state = MissileStates.UP;
+                }
             }
         }
+        this.setVelocity(velocityCalculator());
+        super.tick();
+        System.out.println("Im alive!");
     }
 
     private <E extends IAnimatable> PlayState predicate(@NotNull AnimationEvent<E> event) {
