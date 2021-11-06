@@ -49,8 +49,8 @@ public class FabricNukes implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        GeckoLib.initialize();
         GeckoLibMod.DISABLE_IN_DEV = true;
+        GeckoLib.initialize();
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
         Registry.register(Registry.BLOCK, new Identifier("fabricnukes","missile_launchpad"), MISSILE_LAUNCHPAD);
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "missile_launchpad"), new BlockItem(MISSILE_LAUNCHPAD, new FabricItemSettings().group(FABRICNUKESGROUP)));

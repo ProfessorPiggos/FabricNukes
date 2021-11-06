@@ -14,6 +14,6 @@ public class MissileLaunchpad extends Block {
     }
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.cuboid(0f, 0f, 0f, 1f, 1.0f, 1.125f);
+        return VoxelShapes.cuboid(0f, 0f, 0f, 1f, 2.0f, 1.125f);
     }
 }
