@@ -7,6 +7,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -45,14 +46,16 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
      * @param startValue launch location of missile
      * @return Vec3d of missile velocity
      */
-    protected Vec3d easedUpVelocity(double startValue) {
-        if (this.getVelocity() == Vec3d.ZERO) {
-            // fix this later for top check
+    @Contract("_, _ -> new")
+    public @NotNull Vec3d easedUpVelocity(double curY, double startValue) {
+        if (curY < 256D) {
+            return new Vec3d(
+                    0D,
+                    0.75D / (1D - Math.cos((((curY - (startValue - 0.01D)) / (256D - startValue)) * Math.PI) / 2)),
+                    0D);
+        } else {
+            return Vec3d.ZERO;
         }
-        return new Vec3d(
-                0D,
-                0.75D / (1D - Math.cos((((this.getY() - startValue) / (256D - startValue)) * Math.PI) / 2)),
-                0D);
     }
 
     /**
@@ -62,32 +65,41 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
      * @param destinationValue where missile will land
      * @return Vec3d of missile velocity
      */
-    protected Vec3d easedFallVelocity(double destinationValue) {
-        return new Vec3d(
-            0D,
-            -0.75D / Math.pow((((this.getY() - destinationValue) / (256D - destinationValue)) - 1) , 2),
-            0D
-        );
+    @Contract("_, _ -> new")
+    public @NotNull Vec3d easedFallVelocity(double curY, double destinationValue) {
+        if (curY > destinationValue) {
+            return new Vec3d(
+                    0D,
+                    -0.75D / Math.pow((((curY - (destinationValue - 0.01D)) / (256D - destinationValue)) - 1), 2),
+                    0D
+            );
+        } else {
+            return Vec3d.ZERO;
+        }
     }
 
     protected enum MissileStates {
         PRELAUNCH,
         LAUNCH,
         UP,
+        UPDONE,
         DOWN,
         IMPACT
     }
     protected Vec3d velocityCalculator() {
         switch (state) {
+            case PRELAUNCH -> {
+                return new Vec3d(0,0.1,0);
+            }
             case LAUNCH -> {
                 world.getTopY(Heightmap.Type.WORLD_SURFACE, 0, 0);
                 return Vec3d.ZERO; // placeholder
             }
             case UP -> {
-                return easedUpVelocity(1);
+                return easedUpVelocity(this.getY(),1);
             }
             case DOWN -> {
-                return easedFallVelocity(1);
+                return easedFallVelocity(this.getY(),1);
             }
             default -> {
                 return Vec3d.ZERO;
