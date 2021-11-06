@@ -1,6 +1,5 @@
 package io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow;
 
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
@@ -18,18 +17,33 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
-    private MissileStates state = MissileStates.PRELAUNCH;
+    private double startY;
+    private double destinationX;
+    private double destinationZ;
 
-    /*
-    private final Vec3d velocitySelector = switch (state) {
-        case UP -> easedUpAndDownVelocity(true);
-        case DOWN -> easedUpAndDownVelocity(false);
+    protected enum MissileStates {
+        PRELAUNCH,
+        LAUNCH,
+        UP,
+        DONEUP,
+        DOWN,
+        IMPACT
+    }
+    private MissileStates state = MissileStates.UP;
+
+    protected Vec3d velocityCalculator = switch (state) {
+        case PRELAUNCH -> new Vec3d(0,0.2,0); // debug
+        case UP -> easedUpVelocity(this.getY(), startY);
+        case DOWN -> easedFallVelocity(this.getY(), startY);
         default -> Vec3d.ZERO;
     };
-     */
+
     public BlackYellowMissileEntity(EntityType<? extends MobEntity> type, World worldIn) {
         super(type, worldIn);
         this.ignoreCameraFrustum = false;
+        startY = this.getY();
+        destinationX = this.getX() + 10;
+        destinationZ = this.getZ() + 10;
     }
 
     private static final AnimationBuilder BLACK_YELLOW_MISSILE_IDLE = new AnimationBuilder().addAnimation("animation.blackyellowmissile.idle", true);
@@ -54,6 +68,7 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
                     0.75D / (1D - Math.cos((((curY - (startValue - 0.01D)) / (256D - startValue)) * Math.PI) / 2)),
                     0D);
         } else {
+            state = MissileStates.DONEUP;
             return Vec3d.ZERO;
         }
     }
@@ -78,39 +93,19 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
         }
     }
 
-    protected enum MissileStates {
-        PRELAUNCH,
-        LAUNCH,
-        UP,
-        UPDONE,
-        DOWN,
-        IMPACT
-    }
-    protected Vec3d velocityCalculator() {
-        switch (state) {
-            case PRELAUNCH -> {
-                return new Vec3d(0,0.1,0);
-            }
-            case LAUNCH -> {
-                world.getTopY(Heightmap.Type.WORLD_SURFACE, 0, 0);
-                return Vec3d.ZERO; // placeholder
-            }
-            case UP -> {
-                return easedUpVelocity(this.getY(),1);
-            }
-            case DOWN -> {
-                return easedFallVelocity(this.getY(),1);
-            }
-            default -> {
-                return Vec3d.ZERO;
-            }
-        }
-    }
-
     @Override
     public void tick() {
+        this.setVelocity(velocityCalculator);
         super.tick();
-        this.setVelocity(velocityCalculator());
+        switch (state) {
+            case DONEUP -> {
+                super.teleport(destinationX, this.getY() ,destinationZ);
+                state = MissileStates.DOWN;
+            }
+            case UP, DOWN -> {
+
+            }
+        }
     }
 
     private <E extends IAnimatable> PlayState predicate(@NotNull AnimationEvent<E> event) {
