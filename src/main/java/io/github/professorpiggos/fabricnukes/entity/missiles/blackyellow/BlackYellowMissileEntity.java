@@ -2,6 +2,7 @@ package io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -118,7 +119,11 @@ public class BlackYellowMissileEntity extends MobEntity implements IAnimatable {
         }
         this.setVelocity(velocityCalculator());
         super.tick();
-        System.out.println("Im alive!");
+    }
+
+    @Override
+    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+        return false;
     }
 
     private <E extends IAnimatable> PlayState predicate(@NotNull AnimationEvent<E> event) {
