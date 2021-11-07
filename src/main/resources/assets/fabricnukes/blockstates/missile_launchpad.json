@@ -1,5 +1,5 @@
 {
-  "variants": {
-    "": { "model": "fabricnukes:block/missile_launchpad" }
-  }
+    "variants": {
+        "": { "model": "fabricnukes:block/missile_launchpad" }
+    }
 }
