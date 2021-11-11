@@ -61,6 +61,7 @@ public class FabricNukes implements ModInitializer {
         Registry.register(Registry.BLOCK, new Identifier("fabricnukes","missile_launchpad"), MISSILE_LAUNCHPAD);
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "missile_launchpad"), new BlockItem(MISSILE_LAUNCHPAD, new FabricItemSettings().group(FABRICNUKESGROUP)));
         FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.weezerDefaultAttributes());
-        FabricDefaultAttributeRegistry.register(BLACK_YELLOW_MISSILE, BlackYellowMissileEntity.blackYellowMissileDefaultAttributes());
+        FabricDefaultAttributeRegistry.register(JON_ARBUCKLE_MISSILE, JonArbuckleMissileEntity.genericExplodingMissileDefaultAttributes());
+        FabricDefaultAttributeRegistry.register(BLACK_YELLOW_MISSILE, BlackYellowMissileEntity.genericExplodingMissileDefaultAttributes());
     }
 }

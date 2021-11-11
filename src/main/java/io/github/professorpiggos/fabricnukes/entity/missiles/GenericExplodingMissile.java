@@ -4,9 +4,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -58,10 +56,10 @@ public class GenericExplodingMissile extends MobEntity implements IAnimatable {
         destinationZ = this.getZ();
     }
 
-    private static final AnimationBuilder BLACK_YELLOW_MISSILE_IDLE = new AnimationBuilder().addAnimation("animation.blackyellowmissile.idle", true);
+    private static final AnimationBuilder IDLE = new AnimationBuilder().addAnimation("animation.blackyellowmissile.idle", true);
     private final AnimationFactory factory = new AnimationFactory(this);
 
-    public static DefaultAttributeContainer.Builder blackYellowMissileDefaultAttributes() {
+    public static DefaultAttributeContainer.Builder genericExplodingMissileDefaultAttributes() {
         return MobEntity.createMobAttributes();
     }
 
@@ -127,7 +125,7 @@ public class GenericExplodingMissile extends MobEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(@NotNull AnimationEvent<E> event) {
-        event.getController().setAnimation(BLACK_YELLOW_MISSILE_IDLE);
+        event.getController().setAnimation(IDLE);
         return PlayState.CONTINUE;
     }
 
