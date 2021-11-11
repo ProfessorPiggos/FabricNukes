@@ -3,7 +3,6 @@ package io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-
 public class BlackYellowMissileModel extends AnimatedGeoModel<BlackYellowMissileEntity> {
     @Override
     public Identifier getModelLocation(BlackYellowMissileEntity object) {

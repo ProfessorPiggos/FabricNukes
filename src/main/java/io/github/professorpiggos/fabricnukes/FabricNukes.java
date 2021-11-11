@@ -2,6 +2,7 @@ package io.github.professorpiggos.fabricnukes;
 
 import io.github.professorpiggos.fabricnukes.block.MissileLaunchpad;
 import io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow.BlackYellowMissileEntity;
+import io.github.professorpiggos.fabricnukes.entity.missiles.jonarbuckle.JonArbuckleMissileEntity;
 import io.github.professorpiggos.fabricnukes.entity.weezer.WeezerEntity;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -45,6 +46,11 @@ public class FabricNukes implements ModInitializer {
             Registry.ENTITY_TYPE,
             new Identifier("fabricnukes", "blackyellowmissile"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlackYellowMissileEntity::new).dimensions(EntityDimensions.fixed(1f, 5f)).build()
+    );
+    public static final EntityType<JonArbuckleMissileEntity> JON_ARBUCKLE_MISSILE = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier("fabricnukes", "jonarbucklemissile"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, JonArbuckleMissileEntity::new).dimensions(EntityDimensions.fixed(1f, 5f)).build()
     );
 
     @Override
