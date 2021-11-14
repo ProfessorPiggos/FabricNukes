@@ -11,6 +11,7 @@ import net.minecraft.util.collection.DefaultedList;
  *
  * Originally by Juuz
  */
+@FunctionalInterface
 public interface ImplementedInventory extends Inventory {
 
     /**
