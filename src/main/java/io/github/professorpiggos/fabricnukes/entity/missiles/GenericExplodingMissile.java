@@ -105,6 +105,7 @@ public class GenericExplodingMissile extends MobEntity implements IAnimatable {
 
     @Override
     public void tick() {
+        super.tick();
         switch (state) {
             case DONEUP -> {
                 state = MissileStates.DOWN;
@@ -116,7 +117,6 @@ public class GenericExplodingMissile extends MobEntity implements IAnimatable {
             }
         }
         this.setVelocity(velocityCalculator());
-        super.tick();
     }
 
     @Override

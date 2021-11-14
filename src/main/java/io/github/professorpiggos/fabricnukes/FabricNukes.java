@@ -1,6 +1,7 @@
 package io.github.professorpiggos.fabricnukes;
 
-import io.github.professorpiggos.fabricnukes.block.MissileLaunchpad;
+import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.MissileLaunchpad;
+import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.MissileLaunchpadEntity;
 import io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow.BlackYellowMissileEntity;
 import io.github.professorpiggos.fabricnukes.entity.missiles.jonarbuckle.JonArbuckleMissileEntity;
 import io.github.professorpiggos.fabricnukes.entity.weezer.WeezerEntity;
@@ -8,9 +9,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -37,6 +40,7 @@ public class FabricNukes implements ModInitializer {
                     .strength(5.0F, 6.0F)
                     .sounds(BlockSoundGroup.METAL)
     );
+    public static BlockEntityType<MissileLaunchpadEntity> MISSILE_LAUNCHPAD_ENTITY;
     public static final EntityType<WeezerEntity> WEEZER = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier("fabricnukes", "weezermob"),
@@ -53,13 +57,20 @@ public class FabricNukes implements ModInitializer {
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, JonArbuckleMissileEntity::new).dimensions(EntityDimensions.fixed(1f, 5f)).build()
     );
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onInitialize() {
         GeckoLibMod.DISABLE_IN_DEV = true;
         GeckoLib.initialize();
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
         Registry.register(Registry.BLOCK, new Identifier("fabricnukes","missile_launchpad"), MISSILE_LAUNCHPAD);
-        Registry.register(Registry.ITEM, new Identifier("fabricnukes", "missile_launchpad"), new BlockItem(MISSILE_LAUNCHPAD, new FabricItemSettings().group(FABRICNUKESGROUP)));
+        MISSILE_LAUNCHPAD_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                "fabricnukes:missile_launchpad_entity",
+                FabricBlockEntityTypeBuilder.create(MissileLaunchpadEntity::new, MISSILE_LAUNCHPAD)
+                .build(null));
+        Registry.register(Registry.ITEM, new Identifier("fabricnukes", "missile_launchpad"),
+                new BlockItem(MISSILE_LAUNCHPAD,
+                new FabricItemSettings().group(FABRICNUKESGROUP)));
         FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.weezerDefaultAttributes());
         FabricDefaultAttributeRegistry.register(JON_ARBUCKLE_MISSILE, JonArbuckleMissileEntity.genericExplodingMissileDefaultAttributes());
         FabricDefaultAttributeRegistry.register(BLACK_YELLOW_MISSILE, BlackYellowMissileEntity.genericExplodingMissileDefaultAttributes());
