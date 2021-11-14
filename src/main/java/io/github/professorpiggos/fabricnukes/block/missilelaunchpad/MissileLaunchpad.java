@@ -18,6 +18,7 @@ public class MissileLaunchpad extends Block implements BlockEntityProvider {
 
     public static final Identifier ID = new Identifier("fabricnukes","missile_launchpad");
 
+    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         return VoxelShapes.cuboid(0f, 0f, 0f, 1f, 2.0f, 1.125f);
