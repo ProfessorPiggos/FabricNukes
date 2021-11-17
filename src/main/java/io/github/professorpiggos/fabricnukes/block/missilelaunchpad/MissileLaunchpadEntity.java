@@ -43,7 +43,7 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
                 case 0 -> destinationX;
                 case 1 -> destinationY;
                 default -> -1;
-            }
+            };
         }
 
         @Override
