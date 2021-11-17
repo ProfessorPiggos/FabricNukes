@@ -2,7 +2,7 @@ package io.github.professorpiggos.fabricnukes.block.missilelaunchpad;
 
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import io.github.professorpiggos.fabricnukes.FabricNukes;
-import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.MissileLaunchpadGuiDescription;
+import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.LaunchpadGui;
 import io.github.professorpiggos.fabricnukes.util.ImplementedInventory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.InventoryProvider;
@@ -26,13 +26,41 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.NotNull;
 
-public class MissileLaunchpadEntity extends BlockEntity implements ImplementedInventory, InventoryProvider, PropertyDelegateHolder, NamedScreenHandlerFactory {
+public class MissileLaunchpadEntity extends BlockEntity implements ImplementedInventory, PropertyDelegateHolder, InventoryProvider, NamedScreenHandlerFactory {
     public MissileLaunchpadEntity(BlockPos pos, BlockState state) {
         super(FabricNukes.MISSILE_LAUNCHPAD_ENTITY, pos, state);
     }
-    private final Inv inventory = new Inv();
-    private final DefaultedList<ItemStack> items = DefaultedList.ofSize(MissileLaunchpadGuiDescription.INVENTORY_SIZE, ItemStack.EMPTY);
 
+    private final Inv inventory = new Inv();
+    private final DefaultedList<ItemStack> items = DefaultedList.ofSize(LaunchpadGui.INVENTORY_SIZE, ItemStack.EMPTY);
+    private int destinationX = 0;
+    private int destinationY = 0;
+
+    private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            if (index == 0) {
+                return destinationX;
+            } else if (index == 1) {
+                return destinationY;
+            }
+            return -1;
+        }
+
+        @Override
+        public void set(int index, int value) {
+            if (index == 0) {
+                destinationX = value;
+            } else if (index == 1) {
+                destinationY = value;
+            }
+        }
+
+        @Override
+        public int size() {
+            return 2;
+        }
+    };
     @Override
     public boolean canPlayerUse(@NotNull PlayerEntity player) {
         return pos.isWithinDistance(player.getBlockPos(),4.5D);
@@ -62,28 +90,13 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inventory, PlayerEntity player) {
-        return new MissileLaunchpadGuiDescription(syncId, inventory, ScreenHandlerContext.create(world,pos));
+        return new LaunchpadGui(syncId, inventory, ScreenHandlerContext.create(world,pos));
     }
 
     @Override
     public PropertyDelegate getPropertyDelegate() {
         //crazy temporary anon class
-        return new PropertyDelegate() {
-            @Override
-            public int get(int index) {
-                return 0;
-            }
-
-            @Override
-            public void set(int index, int value) {
-
-            }
-
-            @Override
-            public int size() {
-                return 0;
-            }
-        };
+        return propertyDelegate;
     }
 
     @Override

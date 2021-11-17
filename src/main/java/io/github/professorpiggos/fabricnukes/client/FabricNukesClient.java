@@ -1,8 +1,8 @@
 package io.github.professorpiggos.fabricnukes.client;
 
 import io.github.professorpiggos.fabricnukes.FabricNukes;
-import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.MissileLaunchpadGuiDescription;
-import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.MissileLaunchpadScreen;
+import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.LaunchpadGui;
+import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.LaunchpadScreen;
 import io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow.BlackYellowMissileRenderer;
 import io.github.professorpiggos.fabricnukes.entity.missiles.jonarbuckle.JonArbuckleMissileRenderer;
 import io.github.professorpiggos.fabricnukes.entity.weezer.WeezerRenderer;
@@ -17,7 +17,7 @@ public class FabricNukesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         //noinspection RedundantTypeArguments
-        ScreenRegistry.<MissileLaunchpadGuiDescription, MissileLaunchpadScreen>register(FabricNukes.SCREEN_HANDLER_TYPE, (gui, inventory, title) -> new MissileLaunchpadScreen(gui, inventory.player, title));
+        ScreenRegistry.<LaunchpadGui, LaunchpadScreen>register(FabricNukes.SCREEN_HANDLER_TYPE, (gui, inventory, title) -> new LaunchpadScreen(gui, inventory.player, title));
         EntityRendererRegistry.register(FabricNukes.WEEZER, WeezerRenderer::new);
         EntityRendererRegistry.register(FabricNukes.BLACK_YELLOW_MISSILE, BlackYellowMissileRenderer::new);
         EntityRendererRegistry.register(FabricNukes.JON_ARBUCKLE_MISSILE, JonArbuckleMissileRenderer::new);

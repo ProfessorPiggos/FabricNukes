@@ -2,7 +2,7 @@ package io.github.professorpiggos.fabricnukes;
 
 import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.MissileLaunchpad;
 import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.MissileLaunchpadEntity;
-import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.MissileLaunchpadGuiDescription;
+import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.LaunchpadGui;
 import io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow.BlackYellowMissileEntity;
 import io.github.professorpiggos.fabricnukes.entity.missiles.jonarbuckle.JonArbuckleMissileEntity;
 import io.github.professorpiggos.fabricnukes.entity.weezer.WeezerEntity;
@@ -32,7 +32,7 @@ import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 
 public class FabricNukes implements ModInitializer {
-    public static ScreenHandlerType<MissileLaunchpadGuiDescription> SCREEN_HANDLER_TYPE;
+    public static ScreenHandlerType<LaunchpadGui> SCREEN_HANDLER_TYPE;
     public static final Item GUN = new Item(new FabricItemSettings());
     public static final ItemGroup FABRICNUKESGROUP = FabricItemGroupBuilder.create(
             new Identifier("fabricnukes","main"))
@@ -67,7 +67,7 @@ public class FabricNukes implements ModInitializer {
     public void onInitialize() {
         GeckoLibMod.DISABLE_IN_DEV = true;
         GeckoLib.initialize();
-        SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(MissileLaunchpad.ID, (syncId, inventory) -> new MissileLaunchpadGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY));
+        SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(MissileLaunchpad.ID, (syncId, inventory) -> new LaunchpadGui(syncId, inventory, ScreenHandlerContext.EMPTY));
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
         Registry.register(Registry.BLOCK, MissileLaunchpad.ID, MISSILE_LAUNCHPAD);
         MISSILE_LAUNCHPAD_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE,
