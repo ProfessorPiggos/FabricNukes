@@ -5,10 +5,13 @@ import io.github.professorpiggos.fabricnukes.FabricNukes;
 import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.MissileLaunchpadGuiDescription;
 import io.github.professorpiggos.fabricnukes.util.ImplementedInventory;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SidedInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -19,13 +22,15 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.NotNull;
 
-public class MissileLaunchpadEntity extends BlockEntity implements ImplementedInventory, PropertyDelegateHolder, NamedScreenHandlerFactory {
+public class MissileLaunchpadEntity extends BlockEntity implements ImplementedInventory, InventoryProvider, PropertyDelegateHolder, NamedScreenHandlerFactory {
     public MissileLaunchpadEntity(BlockPos pos, BlockState state) {
         super(FabricNukes.MISSILE_LAUNCHPAD_ENTITY, pos, state);
     }
-
+    private final Inv inventory = new Inv();
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(MissileLaunchpadGuiDescription.INVENTORY_SIZE, ItemStack.EMPTY);
 
     @Override
@@ -62,6 +67,52 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
 
     @Override
     public PropertyDelegate getPropertyDelegate() {
-        return null;
+        //crazy temporary anon class
+        return new PropertyDelegate() {
+            @Override
+            public int get(int index) {
+                return 0;
+            }
+
+            @Override
+            public void set(int index, int value) {
+
+            }
+
+            @Override
+            public int size() {
+                return 0;
+            }
+        };
+    }
+
+    @Override
+    public SidedInventory getInventory(BlockState state, WorldAccess world, BlockPos pos) {
+        return inventory;
+    }
+
+    static class Inv extends SimpleInventory implements SidedInventory {
+        Inv() {
+            super(2);
+        }
+        @Override
+        public int getMaxCountPerStack() {
+            return 1;
+        }
+
+        @Override
+        public int[] getAvailableSlots(Direction side) {
+            return new int[0];
+        }
+
+        @Override
+        public boolean canInsert(int slot, ItemStack stack, Direction dir) {
+            return false;
+        }
+
+        @Override
+        public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+            return false;
+        }
     }
 }
