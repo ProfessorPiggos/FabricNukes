@@ -39,20 +39,18 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            if (index == 0) {
-                return destinationX;
-            } else if (index == 1) {
-                return destinationY;
+            return switch(index) {
+                case 0 -> destinationX;
+                case 1 -> destinationY;
+                default -> -1;
             }
-            return -1;
         }
 
         @Override
         public void set(int index, int value) {
-            if (index == 0) {
-                destinationX = value;
-            } else if (index == 1) {
-                destinationY = value;
+            switch (index) {
+                case 0 -> destinationX = value;
+                case 1 -> destinationY = value;
             }
         }
 
