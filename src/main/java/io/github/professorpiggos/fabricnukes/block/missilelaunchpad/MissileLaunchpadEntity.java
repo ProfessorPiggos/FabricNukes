@@ -35,13 +35,16 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(LaunchpadGui.INVENTORY_SIZE, ItemStack.EMPTY);
     private int destinationX = 0;
     private int destinationY = 0;
-
+    private int missileType = 0;
+    private int isReady = 0;
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
             return switch(index) {
                 case 0 -> destinationX;
                 case 1 -> destinationY;
+                case 2 -> missileType;
+                case 3 -> isReady;
                 default -> -1;
             };
         }
@@ -51,12 +54,14 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
             switch (index) {
                 case 0 -> destinationX = value;
                 case 1 -> destinationY = value;
+                case 2 -> missileType = value;
+                case 3 -> isReady = value;
             }
         }
 
         @Override
         public int size() {
-            return 2;
+            return LaunchpadGui.PROPERTY_COUNT;
         }
     };
     @Override
