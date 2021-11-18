@@ -24,13 +24,13 @@ public class LaunchpadGui extends SyncedGuiDescription {
         root.add(MissileSlot, 3, 1);
         root.add(FuelSlot, 5, 1);
         WTextField x = new WTextField(new TranslatableText("X Coordinate")).setMaxLength(8);
-        root.add(x, 3, 25, 60, 10);
+        root.add(x, 0, 2, 4, 10);
         WTextField y = new WTextField(new TranslatableText("Y Coordinate")).setMaxLength(8);
-        root.add(y, 3, 35, 60, 10);
+        root.add(y, 0, 4, 4, 10);
         WButton launch = new WButton();
         launch.setSize(40, 10);
-        root.add(launch, 3, 35);
-        root.add(this.createPlayerInventoryPanel(), 0, 3);
+        root.add(launch, 6, 3);
+        root.add(this.createPlayerInventoryPanel(), 0, 6);
         root.validate(this);
     }
 }
