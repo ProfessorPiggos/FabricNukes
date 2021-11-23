@@ -4,7 +4,6 @@ import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import io.github.professorpiggos.fabricnukes.FabricNukes;
 import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.LaunchpadGui;
 import io.github.professorpiggos.fabricnukes.util.ImplementedInventory;
-import io.github.professorpiggos.fabricnukes.util.MissileProperties;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.entity.BlockEntity;
@@ -34,7 +33,7 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
 
     private final Inv inventory = new Inv();
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(LaunchpadGui.INVENTORY_SIZE, ItemStack.EMPTY);
-    private final MissileProperties propertyDelegate = new MissileProperties();
+    private final LaunchpadProperties propertyDelegate = new LaunchpadProperties();
     @Override
     public boolean canPlayerUse(@NotNull PlayerEntity player) {
         return pos.isWithinDistance(player.getBlockPos(),4.5D);
@@ -99,6 +98,38 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
         @Override
         public boolean canExtract(int slot, ItemStack stack, Direction dir) {
             return false;
+        }
+    }
+
+    public static class LaunchpadProperties implements PropertyDelegate {
+        private int destinationX = 0;
+        private int destinationY = 0;
+        private int missileType = 0;
+        private int isReady = 0;
+        @Override
+        public int get(int index) {
+            return switch(index) {
+                case 0 -> destinationX;
+                case 1 -> destinationY;
+                case 2 -> missileType;
+                case 3 -> isReady;
+                default -> -1;
+            };
+        }
+
+        @Override
+        public void set(int index, int value) {
+            switch (index) {
+                case 0 -> destinationX = value;
+                case 1 -> destinationY = value;
+                case 2 -> missileType = value;
+                case 3 -> isReady = value;
+            }
+        }
+
+        @Override
+        public int size() {
+            return LaunchpadGui.PROPERTY_COUNT;
         }
     }
 }
