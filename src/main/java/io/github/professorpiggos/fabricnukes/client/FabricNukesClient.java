@@ -9,15 +9,21 @@ import io.github.professorpiggos.fabricnukes.entity.weezer.WeezerRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.minecraft.client.render.RenderLayer;
 
 @Environment(EnvType.CLIENT)
 public class FabricNukesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         //noinspection RedundantTypeArguments
-        ScreenRegistry.<LaunchpadGui, LaunchpadScreen>register(FabricNukes.SCREEN_HANDLER_TYPE, (gui, inventory, title) -> new LaunchpadScreen(gui, inventory.player, title));
+        ScreenRegistry.<LaunchpadGui, LaunchpadScreen>register(
+                FabricNukes.SCREEN_HANDLER_TYPE,
+                (gui, inventory, title) -> new LaunchpadScreen(gui, inventory.player, title)
+        );
+        BlockRenderLayerMap.INSTANCE.putBlock(FabricNukes.MISSILE_LAUNCHPAD, RenderLayer.getCutout());
         EntityRendererRegistry.register(FabricNukes.WEEZER, WeezerRenderer::new);
         EntityRendererRegistry.register(FabricNukes.BLACK_YELLOW_MISSILE, BlackYellowMissileRenderer::new);
         EntityRendererRegistry.register(FabricNukes.JON_ARBUCKLE_MISSILE, JonArbuckleMissileRenderer::new);

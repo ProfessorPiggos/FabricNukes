@@ -42,6 +42,7 @@ public class FabricNukes implements ModInitializer {
     public static final MissileLaunchpad MISSILE_LAUNCHPAD = new MissileLaunchpad(
             FabricBlockSettings.of(Material.METAL)
                     .requiresTool()
+                    .nonOpaque()
                     .strength(5.0F, 6.0F)
                     .sounds(BlockSoundGroup.METAL)
     );
