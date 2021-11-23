@@ -34,10 +34,6 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
 
     private final Inv inventory = new Inv();
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(LaunchpadGui.INVENTORY_SIZE, ItemStack.EMPTY);
-    private int destinationX = 0;
-    private int destinationY = 0;
-    private int missileType = 0;
-    private int isReady = 0;
     private final MissileProperties propertyDelegate = new MissileProperties();
     @Override
     public boolean canPlayerUse(@NotNull PlayerEntity player) {
@@ -73,7 +69,6 @@ public class MissileLaunchpadEntity extends BlockEntity implements ImplementedIn
 
     @Override
     public PropertyDelegate getPropertyDelegate() {
-        //crazy temporary anon class
         return propertyDelegate;
     }
 

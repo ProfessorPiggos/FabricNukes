@@ -3,7 +3,11 @@ package io.github.professorpiggos.fabricnukes.util;
 import io.github.professorpiggos.fabricnukes.block.missilelaunchpad.gui.LaunchpadGui;
 import net.minecraft.screen.PropertyDelegate;
 
-public class MissileProperties extends PropertyDelegate {
+public class MissileProperties implements PropertyDelegate {
+    private int destinationX = 0;
+    private int destinationY = 0;
+    private int missileType = 0;
+    private int isReady = 0;
     @Override
     public int get(int index) {
         return switch(index) {
