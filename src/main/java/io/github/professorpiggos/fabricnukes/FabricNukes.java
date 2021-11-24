@@ -20,6 +20,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -34,11 +35,20 @@ import software.bernie.geckolib3.GeckoLib;
 public class FabricNukes implements ModInitializer {
     public static ScreenHandlerType<LaunchpadGui> SCREEN_HANDLER_TYPE;
     public static final Item GUN = new Item(new FabricItemSettings());
-    public static final ItemGroup FABRICNUKESGROUP = FabricItemGroupBuilder.create(
-            new Identifier("fabricnukes","main"))
+    public static final ItemGroup FABRIC_NUKES_GROUP = FabricItemGroupBuilder.create(
+                    new Identifier("fabricnukes", "main"))
             .icon(() -> new ItemStack(GUN))
             .appendItems(stacks -> stacks.add(new ItemStack(GUN)))
             .build();
+    public static final Item FOOD_FOR_THOUGHT = new Item(new FabricItemSettings()
+            .group(FABRIC_NUKES_GROUP)
+            .food(new FoodComponent.Builder()
+                    .hunger(10)
+                    .saturationModifier(0.8F)
+                    .meat()
+                    .build()
+            )
+    );
     public static final MissileLaunchpad MISSILE_LAUNCHPAD = new MissileLaunchpad(
             FabricBlockSettings.of(Material.METAL)
                     .requiresTool()
@@ -76,14 +86,15 @@ public class FabricNukes implements ModInitializer {
         GeckoLib.initialize();
         SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(MissileLaunchpad.ID, (syncId, inventory) -> new LaunchpadGui(syncId, inventory, ScreenHandlerContext.EMPTY));
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
+        Registry.register(Registry.ITEM, new Identifier("fabricnukes", "foodforthought"), FOOD_FOR_THOUGHT);
         Registry.register(Registry.BLOCK, MissileLaunchpad.ID, MISSILE_LAUNCHPAD);
         MISSILE_LAUNCHPAD_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 "fabricnukes:missile_launchpad_entity",
                 FabricBlockEntityTypeBuilder.create(MissileLaunchpadEntity::new, MISSILE_LAUNCHPAD)
-                .build(null));
+                        .build(null));
         Registry.register(Registry.ITEM, MissileLaunchpad.ID,
                 new BlockItem(MISSILE_LAUNCHPAD,
-                new FabricItemSettings().group(FABRICNUKESGROUP)));
+                        new FabricItemSettings().group(FABRIC_NUKES_GROUP)));
         FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.weezerDefaultAttributes());
         FabricDefaultAttributeRegistry.register(JON_ARBUCKLE_MISSILE, JonArbuckleMissileEntity.genericExplodingMissileDefaultAttributes());
         FabricDefaultAttributeRegistry.register(BLACK_YELLOW_MISSILE, BlackYellowMissileEntity.genericExplodingMissileDefaultAttributes());
