@@ -50,17 +50,23 @@ public class FabricNukes implements ModInitializer {
     public static final EntityType<WeezerEntity> WEEZER = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier("fabricnukes", "weezermob"),
-            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, WeezerEntity::new).dimensions(EntityDimensions.fixed(3.1f, 2.25f)).build()
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, WeezerEntity::new)
+                    .dimensions(EntityDimensions.fixed(3.1f, 2.25f))
+                    .build()
     );
     public static final EntityType<BlackYellowMissileEntity> BLACK_YELLOW_MISSILE = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier("fabricnukes", "blackyellowmissile"),
-            FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlackYellowMissileEntity::new).dimensions(EntityDimensions.fixed(1f, 5f)).build()
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlackYellowMissileEntity::new)
+                    .dimensions(EntityDimensions.fixed(1f, 5f))
+                    .build()
     );
     public static final EntityType<JonArbuckleMissileEntity> JON_ARBUCKLE_MISSILE = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier("fabricnukes", "jonarbucklemissile"),
-            FabricEntityTypeBuilder.create(SpawnGroup.MISC, JonArbuckleMissileEntity::new).dimensions(EntityDimensions.fixed(1f, 5f)).build()
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, JonArbuckleMissileEntity::new)
+                    .dimensions(EntityDimensions.fixed(1f, 5f))
+                    .build()
     );
 
     @SuppressWarnings("ConstantConditions")
