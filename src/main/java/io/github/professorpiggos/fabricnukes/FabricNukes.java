@@ -91,7 +91,10 @@ public class FabricNukes implements ModInitializer {
     public void onInitialize() {
         GeckoLibMod.DISABLE_IN_DEV = true;
         GeckoLib.initialize();
-        SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(MissileLaunchpad.ID, (syncId, inventory) -> new LaunchpadGui(syncId, inventory, ScreenHandlerContext.EMPTY));
+        SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(
+                MissileLaunchpad.ID,
+                (syncId, inventory) -> new LaunchpadGui(syncId, inventory, ScreenHandlerContext.EMPTY)
+        );
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "food_for_thought"), FOOD_FOR_THOUGHT);
         Registry.register(Registry.BLOCK, MissileLaunchpad.ID, MISSILE_LAUNCHPAD);
@@ -99,9 +102,7 @@ public class FabricNukes implements ModInitializer {
                 "fabricnukes:missile_launchpad_entity",
                 FabricBlockEntityTypeBuilder.create(MissileLaunchpadEntity::new, MISSILE_LAUNCHPAD)
                         .build(null));
-        Registry.register(Registry.ITEM, MissileLaunchpad.ID,
-                new BlockItem(MISSILE_LAUNCHPAD,
-                        new FabricItemSettings().group(FABRIC_NUKES_GROUP)));
+        Registry.register(Registry.ITEM, MissileLaunchpad.ID, new BlockItem(MISSILE_LAUNCHPAD, new FabricItemSettings().group(FABRIC_NUKES_GROUP)));
         FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.weezerDefaultAttributes());
         FabricDefaultAttributeRegistry.register(JON_ARBUCKLE_MISSILE, JonArbuckleMissileEntity.genericExplodingMissileDefaultAttributes());
         FabricDefaultAttributeRegistry.register(BLACK_YELLOW_MISSILE, BlackYellowMissileEntity.genericExplodingMissileDefaultAttributes());
