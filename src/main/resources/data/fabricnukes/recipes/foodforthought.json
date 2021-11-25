@@ -1,15 +1,20 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CCC",
+        "CBC",
+        "CCC"
+    ],
+    "key": {
+        "C": {
             "item": "minecraft:cooked_beef"
         },
-        {
+        "B": {
             "item": "minecraft:book"
         }
-    ],
+    },
     "result": {
-        "item": "fabricnukes:foodforthought",
+        "item": "fabricnukes:food_for_thought",
         "count": 1
     }
 }

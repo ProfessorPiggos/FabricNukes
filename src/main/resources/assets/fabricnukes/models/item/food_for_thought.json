@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "fabricnukes:item/foodforthought"
+        "layer0": "fabricnukes:item/food_for_thought"
     }
 }

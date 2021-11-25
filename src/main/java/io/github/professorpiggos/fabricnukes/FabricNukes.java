@@ -19,6 +19,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
@@ -28,6 +30,7 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
@@ -42,10 +45,14 @@ public class FabricNukes implements ModInitializer {
             .build();
     public static final Item FOOD_FOR_THOUGHT = new Item(new FabricItemSettings()
             .group(FABRIC_NUKES_GROUP)
+            .rarity(Rarity.RARE)
             .food(new FoodComponent.Builder()
-                    .hunger(10)
-                    .saturationModifier(0.8F)
+                    .hunger(20)
+                    .saturationModifier(1.24F)
                     .meat()
+                    .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 100, 1), 1.0F)
+                    .statusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 2400, 0), 1.0F)
+                    .alwaysEdible()
                     .build()
             )
     );
@@ -86,7 +93,7 @@ public class FabricNukes implements ModInitializer {
         GeckoLib.initialize();
         SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(MissileLaunchpad.ID, (syncId, inventory) -> new LaunchpadGui(syncId, inventory, ScreenHandlerContext.EMPTY));
         Registry.register(Registry.ITEM, new Identifier("fabricnukes", "gun"), GUN);
-        Registry.register(Registry.ITEM, new Identifier("fabricnukes", "foodforthought"), FOOD_FOR_THOUGHT);
+        Registry.register(Registry.ITEM, new Identifier("fabricnukes", "food_for_thought"), FOOD_FOR_THOUGHT);
         Registry.register(Registry.BLOCK, MissileLaunchpad.ID, MISSILE_LAUNCHPAD);
         MISSILE_LAUNCHPAD_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 "fabricnukes:missile_launchpad_entity",
