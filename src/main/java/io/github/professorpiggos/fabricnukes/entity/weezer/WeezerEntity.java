@@ -1,17 +1,14 @@
 package io.github.professorpiggos.fabricnukes.entity.weezer;
 
+import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -38,6 +35,7 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
     }
     public WeezerEntity(EntityType<? extends HostileEntity> type, World worldIn) {
         super(type, worldIn);
+        experiencePoints = 15;
         this.ignoreCameraFrustum = false;
     }
     public static DefaultAttributeContainer.Builder weezerDefaultAttributes() {
@@ -59,12 +57,17 @@ public class WeezerEntity extends HostileEntity implements IAnimatable {
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
+    public void registerControllers(@NotNull AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
+    }
+
+    @Override
+    public EntityGroup getGroup() {
+        return EntityGroup.DEFAULT;
     }
 }

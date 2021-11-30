@@ -7,6 +7,7 @@ import io.github.professorpiggos.fabricnukes.entity.missiles.blackyellow.BlackYe
 import io.github.professorpiggos.fabricnukes.entity.missiles.jonarbuckle.JonArbuckleMissileEntity;
 import io.github.professorpiggos.fabricnukes.entity.weezer.WeezerEntity;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -14,24 +15,24 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
+import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.item.*;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.Heightmap;
 import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 
@@ -104,6 +105,8 @@ public class FabricNukes implements ModInitializer {
                         .build(null));
         Registry.register(Registry.ITEM, MissileLaunchpad.ID, new BlockItem(MISSILE_LAUNCHPAD, new FabricItemSettings().group(FABRIC_NUKES_GROUP)));
         FabricDefaultAttributeRegistry.register(WEEZER, WeezerEntity.weezerDefaultAttributes());
+        SpawnRestrictionAccessor.callRegister(WEEZER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canMobSpawn);
+        BiomeModifications.addSpawn(context -> true, SpawnGroup.MONSTER, WEEZER, 15, 1, 1);
         FabricDefaultAttributeRegistry.register(JON_ARBUCKLE_MISSILE, JonArbuckleMissileEntity.genericExplodingMissileDefaultAttributes());
         FabricDefaultAttributeRegistry.register(BLACK_YELLOW_MISSILE, BlackYellowMissileEntity.genericExplodingMissileDefaultAttributes());
     }
